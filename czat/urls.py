@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^user/', include('login.urls')),
     url(r'^czat/', include('rozmu.urls')),
+    url(r'^', include('rozmu.urls')),
 ]

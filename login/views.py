@@ -19,7 +19,7 @@ def login_page(request):
 				login(request, user)
 				return HttpResponseRedirect('/czat/')
 			else:
-				return HttpResponseRedirect('/nie/')
+				return HttpResponseRedirect('/user/login')
 	else:
 		form = LoginForm()
 	return render(request, 'login.html', {'form': form})
@@ -31,14 +31,14 @@ def registration_page(request):
 		if form.is_valid():
 			u = form.cleaned_data['username']
 			p = form.cleaned_data['password']
-			user = User.objects.get(username=u)
-			if user == None:
+			try:
+                        	user = User.objects.get(username=u)
+                        	error = "Taki użytkownik już istnieje"
+			except User.DoesNotExist:
 				user = User.objects.create_user(username=u, password=p)
 				user.save()
 				login(request, user)
 				return HttpResponseRedirect('/czat/')
-			else:
-				error = "Taki użytkownik już istnieje"
 	else:
 		form = LoginForm()
 	return render(request, 'registration.html', {'form': form, 'err': error})
